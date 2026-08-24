@@ -51,15 +51,18 @@ Prefer aliases unless the user explicitly needs a pinned model version. Alias ta
 
 Do not record a concrete version as the permanent meaning of an alias. Check the official model configuration page when exact resolution or availability matters. Use `--model <alias>` for an invocation-specific choice.
 
-## Bound headless runs
+## Control headless runs
 
-Use `claude -p` for non-interactive delegation. For a result consumed by Codex, default to `--output-format json` and set a task-appropriate `--max-turns`. Add `--max-budget-usd` when the caller needs a hard spend ceiling. A turn limit is a stopping bound, not a guarantee of completion; treat reaching it as an incomplete run.
+Use `claude -p` for non-interactive delegation. For a result consumed by Codex, default to `--output-format json`.
+
+`--max-turns` is an optional hard limit for print mode. Claude Code applies no turn limit when the flag is omitted and exits with an error if the limit is reached. Set it only when the caller actually needs a turn cap, choose the value for the expected amount of agentic work, and do not reuse a fixed example value across unrelated tasks. Treat a run that reaches the cap as incomplete.
+
+`--max-budget-usd` is a separate optional spend ceiling for print mode; usage by Claude Code subagents counts toward it. Use turn and budget limits independently according to which resource the caller needs to bound.
 
 ```bash
 claude -p \
   --model sonnet \
   --output-format json \
-  --max-turns 8 \
   "Inspect the current implementation, identify the root cause, and return evidence-backed findings. Do not edit files."
 ```
 
@@ -85,7 +88,6 @@ Example read-only review:
 claude -p \
   --model opus \
   --output-format json \
-  --max-turns 6 \
   --permission-mode dontAsk \
   --tools "Read,Bash" \
   --allowedTools "Read" "Bash(rg *)" "Bash(git status *)" "Bash(git diff *)" "Bash(git log *)" \
@@ -99,7 +101,6 @@ Example bounded implementation, after the user has authorized edits:
 claude -p \
   --model sonnet \
   --output-format json \
-  --max-turns 12 \
   --permission-mode dontAsk \
   --tools "Read,Edit,Write,Bash" \
   --allowedTools "Read" "Edit" "Write" "Bash(git status *)" "Bash(git diff *)" "Bash(npm test *)" "Bash(npm run lint *)" \
@@ -126,7 +127,6 @@ claude -p \
   --resume "$CLAUDE_SESSION_ID" \
   --model sonnet \
   --output-format json \
-  --max-turns 5 \
   --permission-mode dontAsk \
   --tools "Read,Bash" \
   --allowedTools "Read" "Bash(git diff *)" "Bash(npm test *)" \
