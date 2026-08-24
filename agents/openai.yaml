@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude Code Subagent"
+  short_description: "Delegate bounded work to Claude Code safely"
+  default_prompt: "Use $claude-code-subagent to delegate a bounded task to the local Claude Code CLI and review its result."
