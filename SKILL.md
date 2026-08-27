@@ -1,11 +1,16 @@
 ---
 name: claude-code-subagent
-description: Delegate bounded coding, analysis, review, or verification work from Codex to the local Claude Code CLI with explicit models, permissions, tool limits, structured output, budgets, and resumable sessions. Use when the user asks Codex to consult or use Claude Code, or when repository instructions designate Claude Code as a collaborator.
+description: Deprecated compatibility skill for bounded Claude Code delegation. Prefer subagent-memory from kimurayu45z/subagent, which preserves this guidance and adds Codex plus durable cross-provider context. Use this copy only while migrating or when the replacement is unavailable.
 metadata:
-  short-description: Delegate bounded work to Claude Code safely
+  short-description: Deprecated; migrate to subagent-memory
 ---
 
 # Claude Code Subagent
+
+> Deprecated: the maintained replacement is `subagent-memory` in
+> <https://github.com/kimurayu45z/subagent>. If it is installed, use that skill
+> and read its `references/claude-code.md` for this workflow. This file remains
+> functional only as a migration fallback.
 
 Use Claude Code as a separate worker for a concrete, bounded task. Codex remains responsible for scoping the delegation, reviewing the returned evidence and workspace changes, and reporting the result to the user.
 
